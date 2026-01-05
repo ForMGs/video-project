@@ -36,7 +36,6 @@ public class AuthSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwt;
 
-    /// //
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
