@@ -51,6 +51,7 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     io.minio: DEBUG
     com.example.backend: DEBUG
+    org.springframework.security: DEBUG
 server:
   error:
     include-message: always
