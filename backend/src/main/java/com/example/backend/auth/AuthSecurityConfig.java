@@ -36,6 +36,7 @@ public class AuthSecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwt;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -73,7 +74,7 @@ public class AuthSecurityConfig {
         CorsConfiguration cfg = new CorsConfiguration();
 
         //프론트 개발 서버 오리진 등록
-        cfg.setAllowedOrigins(List.of("http://localhost:5173","https://vidsparkkr.com","https://www.vidsparkkr.com"));
+        cfg.setAllowedOrigins(List.of("http://localhost:5173","https://vidsparkkr.com"));
         //인증정보 (쿠키 Authorization 헤더) 쓰면 true;
         cfg.setAllowCredentials(true);
 
@@ -110,7 +111,7 @@ public class AuthSecurityConfig {
 
             String auth = req.getHeader("Authorization");
             if(auth != null && auth.startsWith("Bearer")){
-                String token = auth.substring(7).trim();
+                String token = auth.substring(7);
                 if(jwt.isValid(token)){
                     String email = jwt.getEmail(token);
                     UserDetails ud = uds.loadUserByUsername(email);
