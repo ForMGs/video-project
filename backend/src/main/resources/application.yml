@@ -41,7 +41,7 @@ minio:
 #  endpoint-public: http://localhost:9000  #브라우저가 실제로 접근하는 주소(개발)
 #  access-key: minioadmin
 #  secret-key: minioadmin
-  endpoint-internal: ${MINO_ENDPOINT}
+  endpoint-internal: ${MINIO_ENDPOINT}
   endpoint-public: ${MINIO_EXTERNAL_HOST}
   access-key: ${MINIO_ROOT_USER}
   secret-key: ${MINIO_ROOT_PASSWORD}
