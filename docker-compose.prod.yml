@@ -11,6 +11,7 @@ services:
     depends_on:
      - frontend
      - backend
+     - minio   #nginx 를 통해 url 구현을 위해 추가.
     restart: unless-stopped
 
   minio:
@@ -23,7 +24,7 @@ services:
       - ./minio_data:/data
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000" # S3 API
+     # - "9000:9000" # S3 API 외부 노출 차단.
       - "9001:9001" # 관리 콘솔
     restart: unless-stopped
 

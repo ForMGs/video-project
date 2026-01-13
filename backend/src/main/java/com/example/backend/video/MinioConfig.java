@@ -31,6 +31,7 @@ public class MinioConfig {
     @Bean
     public MinioClient minioPublicPresignClient(){
         System.out.println("presigned URL ");
+
         try{
             MinioClient result = MinioClient.builder()
                     .endpoint(props.getEndpointPublic())
