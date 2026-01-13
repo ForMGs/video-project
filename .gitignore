@@ -29,3 +29,6 @@ deploy/mysql/
 .DS_Store
 Thumbs.db
 EOF
+/deploy/elasticsearch/
+/minio_data/
+/nginx/
