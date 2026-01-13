@@ -111,7 +111,6 @@ services:
       MINIO_ENDPOINT: http://minio:9000
       MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
       MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
-      MINIO_EXTERNAL_HOST: ${MINIO_EXTERNAL_HOST}
  #    ports:
  #     - "8080:8080"  # Nginx가 프록시 타는 포트 (지금은 직접 접속해도 됨)
     depends_on:
