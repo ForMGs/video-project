@@ -50,6 +50,7 @@ public class AuthSecurityConfig {
                         .requestMatchers("/actuator/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/**","/api/files/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
 //                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/videos/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/videos/*/view").permitAll()
@@ -111,6 +112,7 @@ public class AuthSecurityConfig {
         protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
 
             String auth = req.getHeader("Authorization");
+            System.out.println("Authorization header = " + auth);
             if(auth != null && auth.startsWith("Bearer")){
                 String token = auth.substring(7);
                 if(jwt.isValid(token)){
