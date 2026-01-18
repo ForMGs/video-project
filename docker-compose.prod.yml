@@ -4,7 +4,8 @@ services:
     container_name: nginx-proxy
     volumes:
      - ./nginx/selfsigned.conf:/etc/nginx/conf.d/default.conf:ro
-     - /etc/ssl/selfsigned:/etc/ssl/selfsigned:ro
+     - /etc/letsencrypt/live/vidsparkkr.online/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+     - /etc/letsencrypt/live/vidsparkkr.online/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
     ports:
      - "80:80"
      - "443:443"
