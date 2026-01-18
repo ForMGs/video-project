@@ -50,7 +50,7 @@ public class AuthSecurityConfig {
                         .requestMatchers("/actuator/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/**","/api/files/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
-                        .requestMatchers("/api/users/**").authenticated()
+//                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/videos/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/videos/*/view").permitAll()
                         .requestMatchers("/error","error/**").permitAll()
