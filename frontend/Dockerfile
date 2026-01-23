@@ -25,6 +25,9 @@ RUN rm -rf ./*
 # 빌드 결과만 복사
 COPY --from=build /app/dist ./
 
+#Nginx 설정으로 교체
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Nginx 기본 설정 그대로 사용 (필요하면 나중에 커스터마이징)
 EXPOSE 80
 
