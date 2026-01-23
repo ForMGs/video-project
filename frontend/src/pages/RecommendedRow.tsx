@@ -123,9 +123,9 @@ export default function RecommendedRow({
             </div>
             <div className="sub">
             <span className="channel">{v.userName}</span>
-            <span className="dot">·</span>
+            <span className="dot">조회수</span>
             <span className="views">{v.view}</span>
-            <span className="dot">·</span>
+            <span className="dot">회</span>
             {/* <span className="time">{v.time}</span> */}
             </div>
         </div>
