@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useRef , useMemo} from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchvideo } from "../api/video";
 import type { VideoDetail } from "../types/video";
 import Main from "../components/section/Main";
 import { http } from "../api/http";
+
+// 챕터 추가..
+type Chapter = { start: number; title: string; description?: string};
+
+const [chapters, setChapters] = useState<Chapter[]>([]);
+const [aiStatus, setAiStatus] = useState<String>("NONE");
+const [aiError, setAiError]  = useState<string>("");
 
 async function fetchVideoById(id: string): Promise<VideoDetail> {
     
@@ -21,6 +28,13 @@ async function fetchVideoById(id: string): Promise<VideoDetail> {
 const fmtViews = (n: number) =>
   new Intl.NumberFormat("ko-KR", { notation: "compact" }).format(n);
 
+// 시간 계산 추가.
+function formatTime(sec: number) {
+  const m = String(Math.floor(sec / 60)).padStart(2, "0");
+  const s = String(Math.floor(sec % 60)).padStart(2, "0");
+  return `${m}:${s}`;
+}
+
 
 export default function WatchPage() {
   const { videoID } = useParams<{videoID:string}>();
@@ -28,6 +42,13 @@ export default function WatchPage() {
   const [loading, setLoading] = useState(true);
   const [descOpen, setDescOpen] = useState(false);
   const didSend = React.useRef(false);
+
+  //video duration (seconds)
+  const [durationSec , setDurationSec] = useState<number>(0);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  //chapters (MVP: mock -> 나중에 AIP로 교체)
+  const [chapters, setChapters] = useState<Chapter[]>([]);
 
   useEffect(() => {
     console.log("id : " + videoID);
@@ -56,7 +77,86 @@ export default function WatchPage() {
             console.error(e);
         }
     })();
-  }, [videoID])
+  }, [videoID]);
+
+  // AI 챕터 불러오기 API 연결 자리
+  useEffect(()=>{
+    if(!videoID) return;
+    
+    let cancelled: boolean = false;
+    let timer: number | null =null;
+
+    const poll = async ()=>{
+                  try{
+
+                    //우선 동영상 상태가져오기..
+                    const r = await http.get(`/videos/${videoID}/ai`);
+                    if(cancelled) return;
+
+                    const status = r.data.status;
+                    setAiStatus(status);
+
+                    if(status === "NONE"){
+                      //AI 결과 row가 없으면 생성 요청.
+                      await http.post(`/videos/${videoID}/ai`);
+                      if(cancelled) return;
+                      timer = window.setTimeout(poll,30000);
+                      return;
+                    }
+                    
+                    if(status === "PENDING" || status === "RUNNING"){
+                      timer = window.setTimeout(poll,3000);
+                      return;
+                    }
+                    if(status=== "DONE"){
+                      setChapters(r.data.chapters || []);
+                      setAiError("");
+                      return;
+                    }
+                    if(status === "FAILED"){
+                      setAiError(r.data.errorMessage || "AI 챕터 생성에 실패했습니다.");
+                      return;
+                    }
+
+                  }catch(e){
+                    if(!cancelled){
+                      timer = window.setTimeout(poll,5000);
+                    }
+                    console.error("ai 연동 에러 : " + e);
+                  }
+                };
+    poll();
+    return () => {
+      cancelled =true;
+      if(timer) window.clearTimeout(timer);
+    }
+    
+  },[videoID]);
+
+  //chapters -> segments (start ~ end 계산)
+  const segments = useMemo(()=> {
+    if(!chapters.length || !durationSec) return [];
+    const sorted = [...chapters].sort((a,b) => a.start - b.start);
+
+    return sorted.map((c,i) =>{
+      const start = Math.max(0, Math.floor(c.start));
+      const end = 
+        i < sorted.length -1 ? Math.floor(sorted[i +1].start) : Math.floor(durationSec);
+        return {
+          start,
+          end: Math.max(end, start+1),
+          title: c.title,
+        };
+    });
+
+  },[chapters, durationSec]);
+  const seekTo =(sec: number)=>{
+    const v = videoRef.current;
+    if(!v) return;
+    v.currentTime = sec;
+    v.play();
+  };
+
 
   if (loading) return <div className="watch-loading">로딩 중...</div>;
   if (!video) return <div className="watch-error">영상 정보를 불러올 수 없습니다.</div>;
@@ -66,7 +166,49 @@ export default function WatchPage() {
 
         <div className="watch">
         <div className="watch__left">
-            <video className="watch__player" controls src={video.videoUrl}></video>
+            <video ref={videoRef} className="watch__player" controls src={video.videoUrl}
+              onLoadedMetadata={()=> {
+                const d= videoRef.current?.duration;
+                if(d && Number.isFinite(d)) setDurationSec(d);
+              }}/>
+            {aiStatus==="PENDING" || aiStatus ==="RUNNING" ? (
+              <div className="watch_aiNotice">챕터 생성 중...</div>
+            ):null}
+            {aiStatus==="FAILED"?(
+              <div className="watch_aiError">{aiError}</div>
+            ):null} 
+            {/* ✅ 챕터 구간 바 + 리스트 */}
+            {segments.length > 0 && durationSec > 0 && (
+              <div className="watch__chapters">
+                <div className="watch__chapterbar" aria-label="챕터 구간">
+                  {segments.map((s) => {
+                    const widthPct = ((s.end - s.start) / durationSec) * 100;
+                    return (
+                      <button
+                        key={s.start}
+                        className="watch__chapterseg"
+                        style={{ width: `${widthPct}%` }}
+                        title={`${formatTime(s.start)} · ${s.title}`}
+                        onClick={() => seekTo(s.start)}
+                      />
+                    );
+                  })}
+                </div>
+
+                <div className="watch__chapterlist">
+                  {segments.map((s) => (
+                    <button
+                      key={s.start}
+                      className="watch__chapteritem"
+                      onClick={() => seekTo(s.start)}
+                    >
+                      <span className="watch__chaptertime">{formatTime(s.start)}</span>
+                      <span className="watch__chaptertitle">{s.title}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <h1 className="watch__title">{video.title}</h1>
 

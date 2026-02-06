@@ -121,6 +121,86 @@
       color: #fff;
     }
   }
+  &__chapters {
+    margin-top: 10px;
+    background: #111;
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+
+  &__chapterbar {
+    display: flex;
+    height: 10px;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: #222;
+    margin-bottom: 10px;
+  }
+
+  &__chapterseg {
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: #3a3a3a;
+    transition: 0.15s;
+    &:hover {
+      background: #666;
+    }
+    &:focus {
+      outline: 2px solid #999;
+      outline-offset: 2px;
+    }
+  }
+
+  &__chapterlist {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__chapteritem {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #181818;
+    border: none;
+    color: #f1f1f1;
+    cursor: pointer;
+    transition: 0.15s;
+
+    &:hover {
+      background: #272727;
+    }
+  }
+
+  &__chaptertime {
+    font-size: 0.85rem;
+    color: #aaa;
+    min-width: 54px;
+  }
+
+  &__chaptertitle {
+    font-size: 0.95rem;
+    color: #eaeaea;
+  }
+  &__aiNotice{
+    margin-top: 10px;
+    background: #181818;
+    border-radius: 12px;
+    padding:10px;
+    color: #ccc;
+  }
+  &__aiError {
+    margin-top: 10px;
+    background: #2a1111;
+    border-radius: 12px;
+    padding: 10px;
+    color: #ffb3b3;
+  }
 }
 
 .watch-loading,
