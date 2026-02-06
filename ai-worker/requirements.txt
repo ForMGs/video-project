@@ -1,0 +1,8 @@
+redis
+pymysql
+python-dotenv
+minio
+faster-whisper
+openai
+pydantic
+python-dotenv

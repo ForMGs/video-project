@@ -1,0 +1,14 @@
+You must output ONLY valid JSON. No markdown. No extra text.
+
+Given transcript segments with timestamps, produce chapters.
+Return a JSON array only.
+
+Rules:
+- Output must be a JSON array: [{ "start": int, "title": string, "description": string? }, ...]
+- 5~12 chapters depending on length.
+- "start" is integer seconds (floor).
+- Chapters must be chronological, non-overlapping.
+- Do not invent content.
+
+Segments:
+{SEGMENTS_JSON}
