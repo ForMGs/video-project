@@ -15,7 +15,7 @@ public class VideoAiService {
     private static final String QUEUE = "ai:jobs";
 
     @Transactional
-    public void requestAi(Long videoId){
+    public Long requestAi(Long videoId){
 
         VideoAiResult result = repo.findByVideoId(videoId)
                 .orElseGet(() -> repo.save(
@@ -27,7 +27,7 @@ public class VideoAiService {
                 ));
         if(result.getStatus() == AiJobStatus.RUNNING ||
             result.getStatus() == AiJobStatus.DONE){
-            return;
+            return result.getId();
         }
         result.markPending();
         repo.save(result);
@@ -35,5 +35,6 @@ public class VideoAiService {
         //큐에 job id push
         redisTemplate.opsForList()
                 .leftPush(QUEUE, result.getId().toString());
+        return result.getId();
     }
 }
