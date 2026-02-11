@@ -112,13 +112,10 @@ def mark_failed(conn, job_id: int, error_message: str):
 def process_ai_pipeline(video_id: int):
     """
     현재 버전: MinIO 다운로드 → ffmpeg 오디오 추출 → Whisper STT → OpenAI로 chapters 생성 → DB 저장용 결과 반환
-
-    ✅ 주의:
-    - 지금은 video_id로 object_key를 DB에서 조회하지 않고 env로 받는 형태(MVP)
-    - 운영/완성형은 video_id로 bucket/object_key를 DB에서 조회하는 게 정석
     """
     bucket = os.getenv("VIDEO_BUCKET", "videos")
-    object_key = os.getenv("VIDEO_OBJECT_KEY")  # ✅ 오타 수정: VIDEO_OBJECY_KEY -> VIDEO_OBJECT_KEY
+    # object_key = os.getenv("VIDEO_OBJECT_KEY")  # ✅ 오타 수정: VIDEO_OBJECY_KEY -> VIDEO_OBJECT_KEY
+    object_key = get_video_storage(conn, video_id)
 
     if not object_key:
         raise RuntimeError(
@@ -212,6 +209,15 @@ def worker_loop():
             print("[worker] loop error:", outer)
             time.sleep(1)
 
+def get_video_storage(conn, video_id: int):
+    with conn.cursor() as cur:
+        cur.execute(
+            "SELECT storage_key FROM video WHERE id=%s",(video_id,)
+        )
+        row = cur.fetchone()
+        if not row or not row.get("storage_key"):
+            raise RuntimeError(f"Video storage info not found for video_id={video_id}")
+        return row["storage_key"]
 
 if __name__ == "__main__":
     worker_loop()
