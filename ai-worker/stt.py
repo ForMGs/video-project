@@ -1,11 +1,11 @@
-from faster_whisper import whisperModel
+from faster_whisper import WhisperModel
 
 _model =None
 
 def get_model():
     global _model
     if _model is None:
-        _model = whisperModel("small", device="cpu", compute_type="int8")
+        _model = WhisperModel("small", device="cpu", compute_type="int8")
     return _model
 
 def transcribe(audio_path: str):
