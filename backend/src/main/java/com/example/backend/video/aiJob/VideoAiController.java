@@ -20,7 +20,7 @@ public class VideoAiController {
     }
 
     //AI 생성 요청 : 프론트에서 버튼 누르면 호출 가능.
-    @PostMapping("/{videoId/ai")
+    @PostMapping("/{videoId}/ai")
     public Map<String, Object> requestAi(@PathVariable Long videoId){
         Long jobId = commandService.requestAi(videoId);
         return Map.of("jobId",jobId, "status","PENDING");
