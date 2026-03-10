@@ -199,17 +199,23 @@ MinIO (Video Storage)
 
 ### 홈페이지
 <p align="left">
-  <img src="docs/스크린샷%202026-01-24%20012114.png" width="600" style="border:1px solid #ccc; border-radius:8px;">
+  <div style="background:#f6f8fa; padding:20px; border-radius:10px; display:inline-block;">
+    <img src="docs/docs/스크린샷%202026-01-24%20012114.png" width="600">
+  </div>
 </p>
 
 ### 업로드 페이지
 <p align="left">
-  <img src="docs/스크린샷%202026-01-24%20161607.png" width="400">
+  <div style="background:#f6f8fa; padding:20px; border-radius:10px; display:inline-block;">
+    <img src="docs/docs/스크린샷%202026-01-24%20161607.png" width="600">
+  </div>
 </p>
 
 ### 검색 기능 
 <p align="left">
-  <img src="docs/스크린샷%202026-01-24%20162321.png" width="400">
+  <div style="background:#f6f8fa; padding:20px; border-radius:10px; display:inline-block;">
+    <img src="docs/docs/스크린샷%202026-01-24%20162321.png" width="600">
+  </div>
 </p>
 ---
 
