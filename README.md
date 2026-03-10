@@ -199,7 +199,6 @@ MinIO (Video Storage)
 
 ### 홈페이지
 <p align="left">
-  <img src="docs/스크린샷%202026-01-24%20012114.png" width="400">
   <img src="docs/스크린샷%202026-01-24%20012114.png" width="600" style="border:1px solid #ccc; border-radius:8px;">
 </p>
 
