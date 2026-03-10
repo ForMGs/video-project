@@ -198,6 +198,7 @@ MinIO (Video Storage)
 # 📷 Screenshots
 
 ###홈페이지
+
 <p align="center">
   <img src="docs/스크린샷%202026-01-24%20012114.png" width="200">
 </p>
