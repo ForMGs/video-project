@@ -197,9 +197,10 @@ MinIO (Video Storage)
 
 # 📷 Screenshots
 
-서비스 화면
-
-(여기에 이미지 추가 가능)
+###홈페이지
+<p align="center">
+  <img src="docs/스크린샷%202026-01-24%20012114.png" width="200">
+</p>
 
 
 ---
