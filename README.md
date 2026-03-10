@@ -198,12 +198,19 @@ MinIO (Video Storage)
 # 📷 Screenshots
 
 ### 홈페이지
-
-<p align="center">
-  <img src="docs/스크린샷%202026-01-24%20012114.png" width="200">
+<p align="left">
+  <img src="docs/스크린샷%202026-01-24%20012114.png" width="400">
 </p>
 
+### 업로드 페이지
+<p align="left">
+  <img src="docs/스크린샷%202026-01-24%20161607.png" width="400">
+</p>
 
+### 검색 기능 
+<p align="left">
+  <img src="docs/스크린샷%202026-01-24%20162321.png" width="400">
+</p>
 ---
 
 # 🔗 Links
