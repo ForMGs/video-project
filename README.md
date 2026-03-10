@@ -210,10 +210,3 @@ http://www.vidsparkkr.online
 
 ---
 
-# 👨‍💻 Developer
-
-정순만  
-Backend Developer
-
-Email  
-tnsaks55@naver.com
