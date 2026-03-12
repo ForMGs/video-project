@@ -76,7 +76,7 @@ public class AuthSecurityConfig {
         CorsConfiguration cfg = new CorsConfiguration();
 
         //프론트 개발 서버 오리진 등록
-        cfg.setAllowedOrigins(List.of("http://localhost:5173","https://vidsparkkr.online"));
+        cfg.setAllowedOrigins(List.of("http://localhost:5173","https://vidsparkkr.online","https://www.vidsparkkr.online"));
         //인증정보 (쿠키 Authorization 헤더) 쓰면 true;
         cfg.setAllowCredentials(true);
 
