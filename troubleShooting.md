@@ -51,15 +51,17 @@ http.csrf(csrf -> csrf.disable());
 ```
 #### 확인요소
 ##### 1). Request Method : GET 인지 POST 인지 -> POST 
-##### 2). Request Headers에 Authorization 있는지 ->
+##### 2). Request Headers에 Authorization 있는지 -> 해당 기능은 인증 불필요 
+##### 3). 권한 허용되어 있는지 확인 -> 이 부분이 문제로 보임
+```Java
+//ai 요청 총 2개
+@GetMapping("/api/videos/{videoId}/ai")
+//get 요청은 ai 서비스 만들기 전 비디오 조회등으로 video에대한 get요청이 열려있음 그래서 ai에 대한 Get은 문제발생 x
+@POSTMapping("/api/videos/{videoId}/ai")
 ```
- if (status === "NONE") {
-          await http.post(`/videos/${videoID}/ai`);
-          if (cancelled) return;
-          timer = window.setTimeout(poll, 30000);
-          return;
-        }
+#### 결과
+##### ai 서비스 POST 요청에대한 권한을 열어주는 작업필요.
+```
+.requestMatchers(HttpMethod.POST, "/api/videos/*/ai").permitAll()
+```
 
-```
-##### 3). Response Body에 SpringSecurity 관련 메시지 있는지 ? ->
-##### 4). OPTIONS 요청이 먼저 갔는지 ? -> 
