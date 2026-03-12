@@ -54,7 +54,7 @@ public class AuthSecurityConfig {
 //                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/videos/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/videos/*/view").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/videos/*/ai").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/videos/*/ai").permitAll() //ai 에대한 권한 허용
                         .requestMatchers("/error","error/**").permitAll()
 
                         // 3. 영상 업로드는 로그인 필요
