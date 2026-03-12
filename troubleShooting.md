@@ -52,5 +52,14 @@ http.csrf(csrf -> csrf.disable());
 #### 확인요소
 ##### 1). Request Method : GET 인지 POST 인지 -> POST 
 ##### 2). Request Headers에 Authorization 있는지 ->
+```
+ if (status === "NONE") {
+          await http.post(`/videos/${videoID}/ai`);
+          if (cancelled) return;
+          timer = window.setTimeout(poll, 30000);
+          return;
+        }
+
+```
 ##### 3). Response Body에 SpringSecurity 관련 메시지 있는지 ? ->
 ##### 4). OPTIONS 요청이 먼저 갔는지 ? -> 
